@@ -34,7 +34,7 @@
             this.textUsuario = new MetroFramework.Controls.MetroTextBox();
             this.textSenha = new MetroFramework.Controls.MetroTextBox();
             this.btnEntrar = new MetroFramework.Controls.MetroButton();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.btnEsqueceuSenha = new MetroFramework.Controls.MetroButton();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -61,6 +61,7 @@
             // 
             // textUsuario
             // 
+            this.textUsuario.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             // 
             // 
             // 
@@ -89,6 +90,7 @@
             this.textUsuario.UseSelectable = true;
             this.textUsuario.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.textUsuario.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.textUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextUsuario_KeyPress);
             // 
             // textSenha
             // 
@@ -108,7 +110,7 @@
             this.textSenha.Location = new System.Drawing.Point(23, 300);
             this.textSenha.MaxLength = 32767;
             this.textSenha.Name = "textSenha";
-            this.textSenha.PasswordChar = '\0';
+            this.textSenha.PasswordChar = '*';
             this.textSenha.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textSenha.SelectedText = "";
             this.textSenha.SelectionLength = 0;
@@ -120,9 +122,11 @@
             this.textSenha.UseSelectable = true;
             this.textSenha.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.textSenha.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.textSenha.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextSenha_KeyPress);
             // 
             // btnEntrar
             // 
+            this.btnEntrar.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnEntrar.Location = new System.Drawing.Point(261, 329);
             this.btnEntrar.Name = "btnEntrar";
             this.btnEntrar.Size = new System.Drawing.Size(75, 23);
@@ -131,17 +135,21 @@
             this.btnEntrar.Text = "Entrar";
             this.btnEntrar.Theme = MetroFramework.MetroThemeStyle.Light;
             this.btnEntrar.UseSelectable = true;
+            this.btnEntrar.UseStyleColors = true;
+            this.btnEntrar.Click += new System.EventHandler(this.BtnEntrar_Click);
             // 
-            // metroButton1
+            // btnEsqueceuSenha
             // 
-            this.metroButton1.Location = new System.Drawing.Point(130, 329);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(125, 23);
-            this.metroButton1.Style = MetroFramework.MetroColorStyle.Brown;
-            this.metroButton1.TabIndex = 5;
-            this.metroButton1.Text = "Esqueceu sua senha ?";
-            this.metroButton1.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroButton1.UseSelectable = true;
+            this.btnEsqueceuSenha.Location = new System.Drawing.Point(130, 329);
+            this.btnEsqueceuSenha.Name = "btnEsqueceuSenha";
+            this.btnEsqueceuSenha.Size = new System.Drawing.Size(125, 23);
+            this.btnEsqueceuSenha.Style = MetroFramework.MetroColorStyle.Brown;
+            this.btnEsqueceuSenha.TabIndex = 5;
+            this.btnEsqueceuSenha.Text = "Esqueceu sua senha ?";
+            this.btnEsqueceuSenha.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.btnEsqueceuSenha.UseSelectable = true;
+            this.btnEsqueceuSenha.UseStyleColors = true;
+            this.btnEsqueceuSenha.Click += new System.EventHandler(this.btnEsqueceuSenha_Click);
             // 
             // metroLabel2
             // 
@@ -168,7 +176,7 @@
             this.ClientSize = new System.Drawing.Size(360, 450);
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.metroLabel2);
-            this.Controls.Add(this.metroButton1);
+            this.Controls.Add(this.btnEsqueceuSenha);
             this.Controls.Add(this.btnEntrar);
             this.Controls.Add(this.textSenha);
             this.Controls.Add(this.textUsuario);
@@ -193,7 +201,7 @@
         private MetroFramework.Controls.MetroTextBox textUsuario;
         private MetroFramework.Controls.MetroTextBox textSenha;
         private MetroFramework.Controls.MetroButton btnEntrar;
-        private MetroFramework.Controls.MetroButton metroButton1;
+        private MetroFramework.Controls.MetroButton btnEsqueceuSenha;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroLabel metroLabel3;
     }
