@@ -178,6 +178,18 @@ namespace Desafio
 
         private void AtribuirContatoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AtribuirContato atribuir = new AtribuirContato();
+            atribuir.ShowDialog();
+        }
+
+        private void UsuárioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Usuarios usuario = new Usuarios();
+            usuario.ShowDialog();
+        }
+
+        private void FúnilDeVendasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -47,12 +47,16 @@
             this.contatoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atividadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.relatoriosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fúnilDeVendasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clientesEfetuadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.novosContadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metroTabPage3 = new MetroFramework.Controls.MetroTabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.caadastroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuárioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atribuirContatoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.relatóriosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fúnilVendasGlobalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAgenda)).BeginInit();
@@ -71,7 +75,7 @@
             this.metroTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 2;
+            this.metroTabControl1.SelectedIndex = 1;
             this.metroTabControl1.Size = new System.Drawing.Size(760, 471);
             this.metroTabControl1.Style = MetroFramework.MetroColorStyle.Brown;
             this.metroTabControl1.TabIndex = 0;
@@ -265,10 +269,33 @@
             // 
             // relatoriosToolStripMenuItem
             // 
+            this.relatoriosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fúnilDeVendasToolStripMenuItem,
+            this.clientesEfetuadosToolStripMenuItem,
+            this.novosContadosToolStripMenuItem});
             this.relatoriosToolStripMenuItem.Name = "relatoriosToolStripMenuItem";
             this.relatoriosToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.relatoriosToolStripMenuItem.Text = "Relatórios";
             this.relatoriosToolStripMenuItem.ToolTipText = "Gerar relatórios sobre o fúnil de venda";
+            // 
+            // fúnilDeVendasToolStripMenuItem
+            // 
+            this.fúnilDeVendasToolStripMenuItem.Name = "fúnilDeVendasToolStripMenuItem";
+            this.fúnilDeVendasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fúnilDeVendasToolStripMenuItem.Text = "Fúnil de Vendas ";
+            this.fúnilDeVendasToolStripMenuItem.Click += new System.EventHandler(this.FúnilDeVendasToolStripMenuItem_Click);
+            // 
+            // clientesEfetuadosToolStripMenuItem
+            // 
+            this.clientesEfetuadosToolStripMenuItem.Name = "clientesEfetuadosToolStripMenuItem";
+            this.clientesEfetuadosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clientesEfetuadosToolStripMenuItem.Text = "Clientes Efetuados";
+            // 
+            // novosContadosToolStripMenuItem
+            // 
+            this.novosContadosToolStripMenuItem.Name = "novosContadosToolStripMenuItem";
+            this.novosContadosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.novosContadosToolStripMenuItem.Text = "Novos Contados";
             // 
             // metroTabPage3
             // 
@@ -308,21 +335,30 @@
             // usuárioToolStripMenuItem
             // 
             this.usuárioToolStripMenuItem.Name = "usuárioToolStripMenuItem";
-            this.usuárioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.usuárioToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.usuárioToolStripMenuItem.Text = "Usuário";
+            this.usuárioToolStripMenuItem.Click += new System.EventHandler(this.UsuárioToolStripMenuItem_Click);
             // 
             // atribuirContatoToolStripMenuItem
             // 
             this.atribuirContatoToolStripMenuItem.Name = "atribuirContatoToolStripMenuItem";
-            this.atribuirContatoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.atribuirContatoToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.atribuirContatoToolStripMenuItem.Text = "Atribuir Contato";
             this.atribuirContatoToolStripMenuItem.Click += new System.EventHandler(this.AtribuirContatoToolStripMenuItem_Click);
             // 
             // relatóriosToolStripMenuItem
             // 
+            this.relatóriosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fúnilVendasGlobalToolStripMenuItem});
             this.relatóriosToolStripMenuItem.Name = "relatóriosToolStripMenuItem";
             this.relatóriosToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.relatóriosToolStripMenuItem.Text = "Relatórios";
+            // 
+            // fúnilVendasGlobalToolStripMenuItem
+            // 
+            this.fúnilVendasGlobalToolStripMenuItem.Name = "fúnilVendasGlobalToolStripMenuItem";
+            this.fúnilVendasGlobalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fúnilVendasGlobalToolStripMenuItem.Text = "Fúnil Vendas Global";
             // 
             // Principal
             // 
@@ -374,5 +410,9 @@
         private MetroFramework.Controls.MetroButton btnBuscarEvento;
         private MetroFramework.Controls.MetroDateTime dateEventos;
         private MetroFramework.Controls.MetroLabel metroLabel2;
+        private System.Windows.Forms.ToolStripMenuItem fúnilDeVendasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clientesEfetuadosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem novosContadosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fúnilVendasGlobalToolStripMenuItem;
     }
 }

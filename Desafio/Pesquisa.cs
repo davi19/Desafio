@@ -40,7 +40,11 @@ namespace Desafio
                     resultadoPesquisa = validaDados.PesquisaAtividades(textTermo.Text);
                     gridResultado.DataSource = resultadoPesquisa;
                     break;
-                    
+                case "usuarios":
+                    resultadoPesquisa = validaDados.PesquisaUsuarios(textTermo.Text);
+                    gridResultado.DataSource = resultadoPesquisa;
+                    break;
+
             }
         }
 
@@ -54,6 +58,10 @@ namespace Desafio
                     break;
                 case "atividades":
                     AuxiliadoresEdicao._idAtividade = gridResultado.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    Hide();
+                    break;
+                case "usuarios":
+                    AuxiliadoresEdicao._idUsuario = gridResultado.Rows[e.RowIndex].Cells[0].Value.ToString();
                     Hide();
                     break;
 

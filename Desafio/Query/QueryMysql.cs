@@ -230,5 +230,50 @@ namespace Desafio.Query
             var query = $"DELETE FROM atividades WHERE id={idAtividade}";
             _conexaoMysql.ExecutaComando(query);
         }
+
+        public string RetornaNomeUsuarioAtual(string idContato)
+        {
+            var query = $"SELECT b.nome FROM contatos a, usuarios b WHERE a.idusuario = b.id and a.id={idContato}";
+            var resultado =_conexaoMysql.ExecutaComandoComRetorno(query);
+            return resultado[0]["nome"];
+        }
+
+        public List<Dictionary<string,string>> RetornaDadosUsuarios(string idUsuario)
+        {
+            var query = $"SELECT * FROM usuarios  WHERE id={idUsuario}";
+            var resultado = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return resultado;
+        }
+
+        public DataTable PesquisaUsuarios(string termo)
+        {
+            var query =
+                $"SELECT id as ID, nome as NOME,login as LOGIN, permissao AS PERMISSÃO FROM usuarios WHERE (nome like'%{termo}%' OR login like '%{termo}%') AND ativo='S' ";
+            var resultado = _conexaoMysql.ExecutaComandoComRetornoDataTable(query);
+            return resultado;
+        }
+
+        public void AtribuiUsuario(string idContato,string idusuario)
+        {
+            var query = $"UPDATE contatos SET idusuario={idusuario} WHERE id={idContato} ";
+            _conexaoMysql.ExecutaComando(query);
+        }
+
+        public void CadastraUsuario(string nome, string login, string email, string permisssao)
+        {
+            var query = $"INSERT INTO usuarios (nome,login,email,permissao,senha,trocasenha) VALUES('{nome}','{login}','{email}','{permisssao}',MD5('123'),'S') ";
+            _conexaoMysql.ExecutaComando(query);
+        }
+        public void ExcluirUsuario(string idUsuario)
+        {
+            var query = $"UPDATE usuarios SET ativo='N'WHERE id={idUsuario}";
+            _conexaoMysql.ExecutaComando(query);
+        }
+
+        public void AtualizaUsuario(string nome, string login, string email, string permissao, string idUsuario)
+        {
+            var query = $"UPDATE usuarios SET nome='{nome}',login='{login}',email='{email}',permissao='{permissao}' WHERE id='{idUsuario}' ";
+            _conexaoMysql.ExecutaComando(query);
+        }
     }
 }
