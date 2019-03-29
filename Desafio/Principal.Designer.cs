@@ -71,7 +71,7 @@
             this.metroTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 0;
+            this.metroTabControl1.SelectedIndex = 2;
             this.metroTabControl1.Size = new System.Drawing.Size(760, 471);
             this.metroTabControl1.Style = MetroFramework.MetroColorStyle.Brown;
             this.metroTabControl1.TabIndex = 0;
@@ -209,7 +209,7 @@
             // 
             this.dateEventos.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateEventos.Location = new System.Drawing.Point(3, 36);
-            this.dateEventos.MinimumSize = new System.Drawing.Size(0, 29);
+            this.dateEventos.MinimumSize = new System.Drawing.Size(4, 29);
             this.dateEventos.Name = "dateEventos";
             this.dateEventos.Size = new System.Drawing.Size(145, 29);
             this.dateEventos.TabIndex = 5;
@@ -254,12 +254,14 @@
             this.contatoToolStripMenuItem.Name = "contatoToolStripMenuItem";
             this.contatoToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.contatoToolStripMenuItem.Text = "Contato";
+            this.contatoToolStripMenuItem.Click += new System.EventHandler(this.ContatoToolStripMenuItem_Click);
             // 
             // atividadeToolStripMenuItem
             // 
             this.atividadeToolStripMenuItem.Name = "atividadeToolStripMenuItem";
             this.atividadeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.atividadeToolStripMenuItem.Text = "Atividade";
+            this.atividadeToolStripMenuItem.Click += new System.EventHandler(this.AtividadeToolStripMenuItem_Click);
             // 
             // relatoriosToolStripMenuItem
             // 
@@ -306,14 +308,15 @@
             // usuárioToolStripMenuItem
             // 
             this.usuárioToolStripMenuItem.Name = "usuárioToolStripMenuItem";
-            this.usuárioToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.usuárioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.usuárioToolStripMenuItem.Text = "Usuário";
             // 
             // atribuirContatoToolStripMenuItem
             // 
             this.atribuirContatoToolStripMenuItem.Name = "atribuirContatoToolStripMenuItem";
-            this.atribuirContatoToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.atribuirContatoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.atribuirContatoToolStripMenuItem.Text = "Atribuir Contato";
+            this.atribuirContatoToolStripMenuItem.Click += new System.EventHandler(this.AtribuirContatoToolStripMenuItem_Click);
             // 
             // relatóriosToolStripMenuItem
             // 

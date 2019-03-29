@@ -1,26 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Correios.Net;
+using Desafio.Model;
+using Newtonsoft.Json.Linq;
 
-namespace Desafio.Classes
+namespace Desafio.ClassesAuxiliares
 {
     class BuscaCep
     {
-        public Address Localizar(string Cep)
+        public async Task<Endereco> Localizar(string cep)
         {
-                Address endereco = SearchZip.GetAddress(Cep);
-                if (endereco == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return endereco;
-                }
-            
+               
+                Endereco enderecoBuscado = new Endereco();
+                HttpClient cliente = new HttpClient();
+                cliente.BaseAddress= new Uri("https://viacep.com.br/ws/"+cep+"/json/");
+                var resposta =   cliente.GetAsync(cliente.BaseAddress).Result;
+                var stringJson = await resposta.Content.ReadAsStringAsync();
+                var enderecoJson = JObject.Parse(stringJson) ;
+
+                enderecoBuscado.Cidade = enderecoJson["localidade"].ToString();
+                enderecoBuscado.Rua = enderecoJson["logradouro"].ToString();
+                enderecoBuscado.Bairro = enderecoJson["bairro"].ToString();
+                enderecoBuscado.Estado = enderecoJson["uf"].ToString();
+                return enderecoBuscado;
         }
     }
 }

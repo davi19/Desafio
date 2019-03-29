@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using MySql.Data.MySqlClient;
-using Desafio.Classes;
+using Desafio.ClassesAuxiliares;
 
 namespace Desafio.Conexao
 {
@@ -13,7 +13,7 @@ namespace Desafio.Conexao
         public void AbrirConexao()
         {
             string chave = descriptador.Descriptografa("wiJ736rOqnlKJNZFArgh6w==");
-            string stringConexao = "Server=localhost;Port=3306;Database=desafio;Uid=root;Pwd=" + chave + ";SslMode=none;";
+            string stringConexao = "Server=localhost;Port=3306;Database=desafio;Uid=root;Pwd=" + chave + ";SslMode=none;allowPublicKeyRetrieval=true";
             _conexao.ConnectionString = stringConexao;
             _conexao.Open();
         }
@@ -77,11 +77,40 @@ namespace Desafio.Conexao
 
         public DataTable ExecutaComandoComRetornoDataTable(string query)
         {
-            MySqlCommand comando = new MySqlCommand(query,_conexao);
-            MySqlDataAdapter leitor = new MySqlDataAdapter(comando);
             DataTable tabela = new DataTable();
+            try
+            {
+                AbrirConexao();
+                MySqlCommand comando = new MySqlCommand(query,_conexao);
+            MySqlDataAdapter leitor = new MySqlDataAdapter(comando);
+            
             leitor.Fill(tabela);
+            }
+            finally
+            {
+                FecharConexao();
+            }
             return tabela;
+        }
+
+        public int ExecutaComandoComRetornoId(string query)
+        {
+            long ultimoId;
+            if (string.IsNullOrEmpty(query))
+                throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
+            try
+            {
+                AbrirConexao();
+                MySqlCommand comando = new MySqlCommand(query, _conexao);
+                comando.ExecuteNonQuery();
+               ultimoId = comando.LastInsertedId;
+            }
+            finally
+            {
+                FecharConexao();
+            }
+
+            return Convert.ToInt32(ultimoId);
         }
     }
 }

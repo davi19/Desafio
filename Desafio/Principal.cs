@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
-using Desafio.ClassesAuxiliares;
 using Desafio.Query;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -163,6 +162,23 @@ namespace Desafio
             excluir.Name = "excluir";
             excluir.UseColumnTextForButtonValue = true;
             gridAgenda.Columns.Add(excluir);
+        }
+
+        private void ContatoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Contato contato = new Contato(_usuario);
+            contato.ShowDialog();
+        }
+
+        private void AtividadeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Atividades atividades = new Atividades(_usuario);
+            atividades.ShowDialog();
+        }
+
+        private void AtribuirContatoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

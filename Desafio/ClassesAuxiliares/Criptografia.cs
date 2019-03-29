@@ -3,8 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-
-namespace Desafio.Classes
+namespace Desafio.ClassesAuxiliares
 {
     class Criptografia
     {
@@ -12,7 +11,7 @@ namespace Desafio.Classes
         { 0x50, 0x08, 0xF1, 0xDD, 0xDE, 0x3C, 0xF2, 0x18,
             0x44, 0x74, 0x19, 0x2C, 0x53, 0x49, 0xAB, 0xBC };
    
-        private const string chave =
+        private string _chave =
             "Q3JpcHRvZ3JhZmlhcyBjb20gUmluamRhZWwgLyBBRVM=";
 
         public  string Criptografa(string valor)
@@ -23,7 +22,7 @@ namespace Desafio.Classes
                 if (!string.IsNullOrEmpty(valor))
                 {
             
-                    byte[] chaveBytes = Convert.FromBase64String(chave);
+                    byte[] chaveBytes = Convert.FromBase64String(_chave);
                     byte[] valorBytes = new UTF8Encoding().GetBytes(valor);
 
                     Rijndael rijndael = new RijndaelManaged();
@@ -57,7 +56,7 @@ namespace Desafio.Classes
             {       
                 if (!string.IsNullOrEmpty(valor))
                 {
-                    byte[] chaveByte = Convert.FromBase64String(chave);
+                    byte[] chaveByte = Convert.FromBase64String(_chave);
                     byte[] valorByte = Convert.FromBase64String(valor);
 
                                  

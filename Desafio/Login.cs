@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-using Desafio.Classes;
+using Desafio.ClassesAuxiliares;
 using Desafio.Query;
 using MetroFramework;
 using MetroFramework.Forms;
@@ -68,13 +68,13 @@ namespace Desafio
                         if (validaDados.ValidaTrocaSenha(textUsuario.Text))
                         {
                             TrocaSenha troca = new TrocaSenha(textUsuario.Text);
-                            this.Hide();
+                            Hide();
                             troca.Show();
                         }
                         else
                         {
                             Principal principal = new Principal(textUsuario.Text);
-                            this.Hide();
+                            Hide();
                             principal.Show();
                         }
                     }
