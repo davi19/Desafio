@@ -275,5 +275,35 @@ namespace Desafio.Query
             var query = $"UPDATE usuarios SET nome='{nome}',login='{login}',email='{email}',permissao='{permissao}' WHERE id='{idUsuario}' ";
             _conexaoMysql.ExecutaComando(query);
         }
+
+        public DataTable RetornaClientesEfetuados(DateTime inicio,DateTime fim)
+        {
+            var query =
+                $"SELECT a.nomecontato,date_format(b.data,'%d/%m/%y' ) FROM contatos a, evolucoes b WHERE a.id=b.idcontato and DATE(b.data) BETWEEN '{inicio.Date.ToString("yyyy /MM/dd")}' AND '{fim.Date.ToString("yyyy/MM/dd")}' and b.acao='CUSTOMER' ";
+            var resultado = _conexaoMysql.ExecutaComandoComRetornoDataTable(query);
+            return resultado;
+        }
+        public DataTable RetornaContatosNovos(DateTime inicio,DateTime fim)
+        {
+            var query =
+                $"SELECT a.nomecontato,date_format(b.data,'%d/%m/%y' ) FROM contatos a, evolucoes b WHERE a.id=b.idcontato and DATE(b.data) BETWEEN '{inicio.Date.ToString("yyyy /MM/dd")}' AND '{fim.Date.ToString("yyyy/MM/dd")}' and b.acao='SUSPECT' ";
+            var resultado = _conexaoMysql.ExecutaComandoComRetornoDataTable(query);
+            return resultado;
+        }
+        public DataTable RetornaFunilVendas()
+        {
+            var query =
+                $"SELECT status, TRUNCATE(count(id)*100/(SELECT count(id) as total FROM contatos WHERE ativo='S'),0) as quantidade FROM contatos WHERE ativo='S' group by status ";
+            var resultado = _conexaoMysql.ExecutaComandoComRetornoDataTable(query);
+            return resultado;
+        }
+        public string RetornaPermissao(string idUsuario)
+        {
+            var query =
+                $"SELECT permissao FROM usuarios WHERE id={idUsuario} ";
+            var resultado = _conexaoMysql.ExecutaComandoComRetornoDataTable(query);
+            return resultado.Rows[0]["permissao"].ToString();
+        }
+
     }
 }

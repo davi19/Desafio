@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
+using Desafio.ClassesAuxiliares;
+using Desafio.Model;
 using Desafio.Query;
 using MetroFramework;
-using MetroFramework.Controls;
 using MetroFramework.Forms;
+
 
 namespace Desafio
 {
@@ -16,11 +18,20 @@ namespace Desafio
         {
             _usuario = usuario;
             InitializeComponent();
+
             QueryMysql validaDados = new QueryMysql();
             var idUsuario = validaDados.RetornaIdUsuario(usuario);
             var dadosAgenda = validaDados.RecuperaAgenda(Convert.ToInt32(idUsuario));
             PreparaColunasGrid();
             GeraGridAgenda(dadosAgenda);
+            var permissao = validaDados.RetornaPermissao(idUsuario);
+            if (permissao.Equals("COMUM"))
+            {
+                metroTabControl1.TabPages.Remove(metroTabPage3);
+
+            }
+
+            metroTabControl1.TabPages[0].Enabled = true;
         }
 
         private void BtnAdicionarEvento_Click(object sender, EventArgs e)
@@ -33,7 +44,7 @@ namespace Desafio
         {
             QueryMysql validaDados = new QueryMysql();
             var idUsuario = validaDados.RetornaIdUsuario(_usuario);
-            var dadosAgenda = validaDados.RecuperaAgenda(Convert.ToInt32(idUsuario),dateEventos.Value);
+            var dadosAgenda = validaDados.RecuperaAgenda(Convert.ToInt32(idUsuario), dateEventos.Value);
             if (dadosAgenda.Rows.Count == 0)
             {
                 MetroMessageBox.Show(this, "Nenhuma informação foi encontrada.", "Atenção", MessageBoxButtons.OK,
@@ -50,30 +61,30 @@ namespace Desafio
             QueryMysql validaDados = new QueryMysql();
             if (e.ColumnIndex == 6)
             {
-               DialogResult resultado =  MetroMessageBox.Show(this, "Deseja alterar as alterações ?.", "Atenção", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-               if (resultado == DialogResult.Yes)
-               {
-                   try
-                   {
-                       validaDados.AlteraEvento(Convert.ToInt32(gridAgenda.Rows[e.RowIndex].Cells[0].Value.ToString()),
-                           gridAgenda.Rows[e.RowIndex].Cells[1].Value.ToString(),
-                           Convert.ToDateTime(gridAgenda.Rows[e.RowIndex].Cells[2].Value.ToString()),
-                           Convert.ToDateTime(gridAgenda.Rows[e.RowIndex].Cells[3].Value.ToString()),
-                           gridAgenda.Rows[e.RowIndex].Cells[5].Value.ToString(),
-                           gridAgenda.Rows[e.RowIndex].Cells[4].Value.ToString());
-                   }
-                   catch
-                   {
-                       MetroMessageBox.Show(this, "Ocorreu um erro ao salvar as alterações, Nenhuma alteração feita. ", "Erro", MessageBoxButtons.OK,
-                           MessageBoxIcon.Hand);
-                       var idUsuario = validaDados.RetornaIdUsuario(_usuario);
-                       var dadosAgenda = validaDados.RecuperaAgenda(Convert.ToInt32(idUsuario), dateEventos.Value);
+                DialogResult resultado = MetroMessageBox.Show(this, "Deseja alterar as alterações ?.", "Atenção", MessageBoxButtons.YesNo,
+                     MessageBoxIcon.Question);
+                if (resultado == DialogResult.Yes)
+                {
+                    try
+                    {
+                        validaDados.AlteraEvento(Convert.ToInt32(gridAgenda.Rows[e.RowIndex].Cells[0].Value.ToString()),
+                            gridAgenda.Rows[e.RowIndex].Cells[1].Value.ToString(),
+                            Convert.ToDateTime(gridAgenda.Rows[e.RowIndex].Cells[2].Value.ToString()),
+                            Convert.ToDateTime(gridAgenda.Rows[e.RowIndex].Cells[3].Value.ToString()),
+                            gridAgenda.Rows[e.RowIndex].Cells[5].Value.ToString(),
+                            gridAgenda.Rows[e.RowIndex].Cells[4].Value.ToString());
+                    }
+                    catch
+                    {
+                        MetroMessageBox.Show(this, "Ocorreu um erro ao salvar as alterações, Nenhuma alteração feita. ", "Erro", MessageBoxButtons.OK,
+                            MessageBoxIcon.Hand);
+                        var idUsuario = validaDados.RetornaIdUsuario(_usuario);
+                        var dadosAgenda = validaDados.RecuperaAgenda(Convert.ToInt32(idUsuario), dateEventos.Value);
                         GeraGridAgenda(dadosAgenda);
                     }
-               }
+                }
             }
-           else if (e.ColumnIndex == 7)
+            else if (e.ColumnIndex == 7)
             {
                 DialogResult resultado = MetroMessageBox.Show(this, "Deseja excluir este evento ?.", "Atenção", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
@@ -91,7 +102,7 @@ namespace Desafio
         private void GeraGridAgenda(DataTable dadosAgenda)
         {
             gridAgenda.Rows.Clear();
-            
+
 
             for (int i = 0; i < dadosAgenda.Rows.Count; i++)
             {
@@ -190,7 +201,40 @@ namespace Desafio
 
         private void FúnilDeVendasToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            FunilVendas funil = new FunilVendas();
+            funil.ShowDialog();
+        }
 
+        private void ClientesEfetuadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Prazo prazo = new Prazo();
+            prazo.ShowDialog();
+            QueryMysql validaDados = new QueryMysql();
+            var dadosClientes = validaDados.RetornaClientesEfetuados(Convert.ToDateTime(AuxiliadoresEdicao._DataInicial),Convert.ToDateTime(AuxiliadoresEdicao._DataFinal));
+            List<string> cabecalho = new List<string>();
+            cabecalho.Add("NOME CLIENTE");
+            cabecalho.Add("DATA");
+            GeradorPdf.GerarPdf("Clientes Efetuados",2,dadosClientes,cabecalho);
+
+            MetroMessageBox.Show(this, "Relatório gerado com sucesso. Ele foi salvo em sua Área de Trabalho", "Atenção", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+            System.Diagnostics.Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+        }
+
+        private void NovosContadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Prazo prazo = new Prazo();
+            prazo.ShowDialog();
+            QueryMysql validaDados = new QueryMysql();
+            var dadosClientes = validaDados.RetornaContatosNovos(Convert.ToDateTime(AuxiliadoresEdicao._DataInicial), Convert.ToDateTime(AuxiliadoresEdicao._DataFinal));
+            List<string> cabecalho = new List<string>();
+            cabecalho.Add("NOME CLIENTE");
+            cabecalho.Add("DATA DO CADASTRO");
+            GeradorPdf.GerarPdf("Contatos Novos", 2, dadosClientes, cabecalho);
+
+            MetroMessageBox.Show(this, "Relatório gerado com sucesso. Ele foi salvo em sua Área de Trabalho", "Atenção", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+            System.Diagnostics.Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
         }
     }
 }

@@ -74,6 +74,11 @@ namespace Desafio
                 MetroMessageBox.Show(this, "Favor adicionar ao menos um número de contato.", "Atenção", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
             }
+            else if (comboForma.SelectedItem ==null)
+            {
+                MetroMessageBox.Show(this, "Favor selecionar a forma de entrada do contato.", "Atenção", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+            }
             else
             {
                 if (btnCadastrar.Text.Contains("Cadastrar"))
@@ -87,8 +92,13 @@ namespace Desafio
                         comboForma.SelectedItem.ToString(),Convert.ToInt32(idUsuario));
                    for (int i = 0; i < gridTelefones.RowCount; i++)
                    {
-                       validaDados.InserirTelefoneContato(idContato, gridTelefones.Rows[i].Cells[0].Value.ToString(),
-                           gridTelefones.Rows[i].Cells[2].Value.ToString(), gridTelefones.Rows[i].Cells[1].Value.ToString());
+                       if (gridTelefones.Rows[i].Cells[1].Value != null)
+                       {
+                           validaDados.InserirTelefoneContato(idContato,
+                               gridTelefones.Rows[i].Cells[0].Value.ToString(),
+                               gridTelefones.Rows[i].Cells[2].Value.ToString(),
+                               gridTelefones.Rows[i].Cells[1].Value.ToString());
+                       }
                    }
                    LimpaCampos();
                    
@@ -143,97 +153,99 @@ namespace Desafio
             Pesquisa pesquisa = new Pesquisa("contatos");
             pesquisa.ShowDialog();
             string idContato = AuxiliadoresEdicao._idContato;
-
-            QueryMysql validaDados = new QueryMysql();
-            var dadosContatos = validaDados.RetornaDadosContato(idContato);
-
-            textNomeCartorio.Text = dadosContatos[0]["nomecartorio"];
-            textNomeContato.Text = dadosContatos[0]["nomecontato"];
-            textEmail.Text = dadosContatos[0]["email"];
-
-            comboStatus.Visible = true;
-            labelStatus.Visible = true;
-            comboStatus.SelectedItem = dadosContatos[0]["status"];
-
-            textCep.Text = dadosContatos[0]["cep"];
-            textEndereco.Text = dadosContatos[0]["endereco"];
-            textNumero.Text = dadosContatos[0]["numero"];
-            textComplemento.Text = dadosContatos[0]["complemento"];
-            textBairro.Text = dadosContatos[0]["bairro"];
-            textCidade.Text = dadosContatos[0]["cidade"];
-            textEstado.Text = dadosContatos[0]["estado"];
-            comboForma.SelectedItem = dadosContatos[0]["formacontato"].ToUpper();
-
-            gridTelefones.Columns.Clear();
-            gridTelefones.Rows.Clear();
-
-            DataGridViewColumn idTelefone = new DataGridViewTextBoxColumn();
-            idTelefone.ReadOnly = true;
-            idTelefone.Name = "id";
-            idTelefone.HeaderText = "ID";
-            idTelefone.DefaultCellStyle.NullValue = "0";
-            
-
-            gridTelefones.Columns.Add(idTelefone);
-            gridTelefones.Columns.Add("numero", "Número");
-
-            DataGridViewComboBoxColumn preferencial = new DataGridViewComboBoxColumn();
-            List<String> itensConcluidos = new List<String>();
-            itensConcluidos.Add("Sim");
-            itensConcluidos.Add("Não");
-            preferencial.DataSource = itensConcluidos;
-            preferencial.HeaderText = "Preferêncial para Contato";
-            preferencial.Name = "preferencial";
-            preferencial.Width = 200;
-            preferencial.FlatStyle = FlatStyle.Flat;
-            gridTelefones.Columns.Add(preferencial);
-
-
-
-
-            DataGridViewComboBoxColumn tipo = new DataGridViewComboBoxColumn();
-            List<String> itensPrioridade = new List<String>();
-            itensPrioridade.Add("CELULAR");
-            itensPrioridade.Add("FIXO RESIDENCIAL");
-            itensPrioridade.Add("FIXO COMERCIAL");
-            tipo.DataSource = itensPrioridade;
-            tipo.HeaderText = "Tipo de Telefone";
-            tipo.Name = "tipo";
-            tipo.Width = 200;
-            tipo.FlatStyle = FlatStyle.Flat;
-            gridTelefones.Columns.Add(tipo);
-
-
-
-
-            int count = 0;
-            var telefones = validaDados.RetornaTelefonesContatos(idContato);
-            foreach (var telefone in telefones)
+            if (idContato != null)
             {
-                
+                QueryMysql validaDados = new QueryMysql();
+                var dadosContatos = validaDados.RetornaDadosContato(idContato);
 
-                DataGridViewRow linha = new DataGridViewRow();
-                DataGridViewCell numero = new DataGridViewTextBoxCell();
-                DataGridViewCell id = new DataGridViewTextBoxCell();
+                textNomeCartorio.Text = dadosContatos[0]["nomecartorio"];
+                textNomeContato.Text = dadosContatos[0]["nomecontato"];
+                textEmail.Text = dadosContatos[0]["email"];
+
+                comboStatus.Visible = true;
+                labelStatus.Visible = true;
+                comboStatus.SelectedItem = dadosContatos[0]["status"];
+
+                textCep.Text = dadosContatos[0]["cep"];
+                textEndereco.Text = dadosContatos[0]["endereco"];
+                textNumero.Text = dadosContatos[0]["numero"];
+                textComplemento.Text = dadosContatos[0]["complemento"];
+                textBairro.Text = dadosContatos[0]["bairro"];
+                textCidade.Text = dadosContatos[0]["cidade"];
+                textEstado.Text = dadosContatos[0]["estado"];
+                comboForma.SelectedItem = dadosContatos[0]["formacontato"].ToUpper();
+
+                gridTelefones.Columns.Clear();
+                gridTelefones.Rows.Clear();
+
+                DataGridViewColumn idTelefone = new DataGridViewTextBoxColumn();
+                idTelefone.ReadOnly = true;
+                idTelefone.Name = "id";
+                idTelefone.HeaderText = "ID";
+                idTelefone.DefaultCellStyle.NullValue = "0";
 
 
-                id.Value = telefone["id"];
-                numero.Value = telefone["numero"];
+                gridTelefones.Columns.Add(idTelefone);
+                gridTelefones.Columns.Add("numero", "Número");
 
-                linha.Cells.Add(id);
-                linha.Cells.Add(numero);
-                
-                gridTelefones.Rows.Add(linha);
-                
-                gridTelefones.Rows[count].Cells["tipo"].Value = telefone["tipo"];
-                gridTelefones.Rows[count].Cells["preferencial"].Value =telefone["preferencial"];
-                count++;
+                DataGridViewComboBoxColumn preferencial = new DataGridViewComboBoxColumn();
+                List<String> itensConcluidos = new List<String>();
+                itensConcluidos.Add("Sim");
+                itensConcluidos.Add("Não");
+                preferencial.DataSource = itensConcluidos;
+                preferencial.HeaderText = "Preferêncial para Contato";
+                preferencial.Name = "preferencial";
+                preferencial.Width = 200;
+                preferencial.FlatStyle = FlatStyle.Flat;
+                gridTelefones.Columns.Add(preferencial);
 
 
+
+
+                DataGridViewComboBoxColumn tipo = new DataGridViewComboBoxColumn();
+                List<String> itensPrioridade = new List<String>();
+                itensPrioridade.Add("CELULAR");
+                itensPrioridade.Add("FIXO RESIDENCIAL");
+                itensPrioridade.Add("FIXO COMERCIAL");
+                tipo.DataSource = itensPrioridade;
+                tipo.HeaderText = "Tipo de Telefone";
+                tipo.Name = "tipo";
+                tipo.Width = 200;
+                tipo.FlatStyle = FlatStyle.Flat;
+                gridTelefones.Columns.Add(tipo);
+
+
+
+
+                int count = 0;
+                var telefones = validaDados.RetornaTelefonesContatos(idContato);
+                foreach (var telefone in telefones)
+                {
+
+
+                    DataGridViewRow linha = new DataGridViewRow();
+                    DataGridViewCell numero = new DataGridViewTextBoxCell();
+                    DataGridViewCell id = new DataGridViewTextBoxCell();
+
+
+                    id.Value = telefone["id"];
+                    numero.Value = telefone["numero"];
+
+                    linha.Cells.Add(id);
+                    linha.Cells.Add(numero);
+
+                    gridTelefones.Rows.Add(linha);
+
+                    gridTelefones.Rows[count].Cells["tipo"].Value = telefone["tipo"];
+                    gridTelefones.Rows[count].Cells["preferencial"].Value = telefone["preferencial"];
+                    count++;
+
+
+                }
+
+                btnExcluir.Visible = true;
+                btnCadastrar.Text = "Salvar Alterações";
             }
-
-            btnExcluir.Visible = true;
-            btnCadastrar.Text = "Salvar Alterações";
         }
 
         private void BtnExcluir_Click(object sender, EventArgs e)
@@ -278,6 +290,7 @@ namespace Desafio
             gridTelefones.Columns.Clear();
             gridTelefones.Rows.Clear();
             btnExcluir.Visible = false;
+            AuxiliadoresEdicao._idContato = "";
             btnCadastrar.Text = "Cadastrar Contato";
         }
     }
